@@ -728,5 +728,5 @@ export class SupabaseStorage implements IStorage {
   }
 }
 
-// Use SupabaseStorage with provided credentials from .env.local
-export const storage = new SupabaseStorage();
+// Use MemStorage for development and testing until we can connect to Supabase properly
+export const storage = new MemStorage();
