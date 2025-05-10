@@ -92,40 +92,41 @@ export default function RecentInvoices({ limit = 4 }: RecentInvoicesProps) {
           ) : (
             invoices?.slice(0, limit).map((invoice) => (
               <li key={invoice.id}>
-                <Link href={`/invoices/view?id=${invoice.id}`}>
-                  <a className="block hover:bg-gray-50">
-                    <div className="px-4 py-4 sm:px-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <div className="flex-shrink-0 h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
-                            <span className="text-primary-700 font-medium">
-                              {getInitials(invoice.invoiceNumber)}
-                            </span>
-                          </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">Invoice #{invoice.invoiceNumber}</div>
-                            <div className="text-sm text-gray-500">
-                              Due {format(new Date(invoice.dueDate), "MMM d, yyyy")}
-                            </div>
-                          </div>
+                <Link 
+                  href={`/invoices/view?id=${invoice.id}`}
+                  className="block hover:bg-gray-50"
+                >
+                  <div className="px-4 py-4 sm:px-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
+                          <span className="text-primary-700 font-medium">
+                            {getInitials(invoice.invoiceNumber)}
+                          </span>
                         </div>
-                        <div className="flex items-center">
-                          <div className="mr-4 flex flex-col items-end">
-                            <div className="text-sm font-medium text-gray-900">
-                              {formatCurrency(invoice.total)}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {invoice.status === 'paid' 
-                                ? `Paid ${invoice.paidDate ? format(new Date(invoice.paidDate), "MMM d, yyyy") : ''}`
-                                : `Due ${format(new Date(invoice.dueDate), "MMM d, yyyy")}`
-                              }
-                            </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900">Invoice #{invoice.invoiceNumber}</div>
+                          <div className="text-sm text-gray-500">
+                            Due {format(new Date(invoice.dueDate), "MMM d, yyyy")}
                           </div>
-                          {getStatusBadge(invoice.status, invoice.dueDate)}
                         </div>
                       </div>
+                      <div className="flex items-center">
+                        <div className="mr-4 flex flex-col items-end">
+                          <div className="text-sm font-medium text-gray-900">
+                            {formatCurrency(invoice.total)}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {invoice.status === 'paid' 
+                              ? `Paid ${invoice.paidDate ? format(new Date(invoice.paidDate), "MMM d, yyyy") : ''}`
+                              : `Due ${format(new Date(invoice.dueDate), "MMM d, yyyy")}`
+                            }
+                          </div>
+                        </div>
+                        {getStatusBadge(invoice.status, invoice.dueDate)}
+                      </div>
                     </div>
-                  </a>
+                  </div>
                 </Link>
               </li>
             ))

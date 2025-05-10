@@ -61,7 +61,20 @@ export default function InvoicesList() {
 
   // Fetch invoices
   const { data: invoices, isLoading } = useQuery<Invoice[]>({
-    queryKey: ["/api/invoices"],
+    queryKey: ["/api/invoices", statusFilter],
+    queryFn: async () => {
+      let url = "/api/invoices";
+      
+      if (statusFilter && statusFilter !== 'all_statuses') {
+        url += `?status=${statusFilter}`;
+      }
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Failed to fetch invoices");
+      }
+      return response.json();
+    }
   });
 
   // Delete invoice mutation
