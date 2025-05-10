@@ -12,6 +12,7 @@ import {
 import { eq, and, desc, sql, like, or, asc } from "drizzle-orm";
 import { neonConfig, Pool } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-serverless';
+import { config } from "../shared/config";
 
 export interface IStorage {
   // User methods
@@ -427,12 +428,17 @@ export class SupabaseStorage implements IStorage {
   private db: ReturnType<typeof drizzle>;
 
   constructor() {
-    if (!process.env.DATABASE_URL) {
-      throw new Error("DATABASE_URL is not set");
+    // Check for Supabase URL and Anon Key from config
+    if (!config.supabase.url || !config.supabase.anonKey) {
+      throw new Error("Supabase credentials are not set in .env.local");
     }
     
+    // Use DATABASE_URL if available, fallback to constructing from Supabase credentials
+    const connectionString = config.database.url || 
+      `postgres://postgres.${config.supabase.url.replace('https://', '')}:${config.supabase.anonKey}@${config.supabase.url.replace('https://', '')}/postgres`;
+    
     neonConfig.fetchFunction = fetch;
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    const pool = new Pool({ connectionString });
     this.db = drizzle(pool);
   }
 
@@ -722,6 +728,5 @@ export class SupabaseStorage implements IStorage {
   }
 }
 
-// Use MemStorage for development and testing
-// Temporarily using MemStorage even with DATABASE_URL to bypass connection issues
-export const storage = new MemStorage();
+// Use SupabaseStorage with provided credentials from .env.local
+export const storage = new SupabaseStorage();
