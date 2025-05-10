@@ -51,18 +51,18 @@ export default function Sidebar({ user, mobile = false }: SidebarProps) {
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <nav className="mt-5 px-3 space-y-1">
           {sidebarNav.map((item) => (
-            <Link key={item.path} href={item.path}>
-              <a 
-                className={cn(
-                  "group flex items-center px-3 py-2 text-sm font-medium rounded-md",
-                  isActive(item.path) 
-                    ? "bg-gray-100 text-primary-600 border-l-2 border-primary-600" 
-                    : "text-gray-600 hover:bg-gray-50"
-                )}
-              >
-                {item.icon}
-                {item.name}
-              </a>
+            <Link 
+              key={item.path} 
+              href={item.path}
+              className={cn(
+                "group flex items-center px-3 py-2 text-sm font-medium rounded-md",
+                isActive(item.path) 
+                  ? "bg-gray-100 text-primary-600 border-l-2 border-primary-600" 
+                  : "text-gray-600 hover:bg-gray-50"
+              )}
+            >
+              {item.icon}
+              {item.name}
             </Link>
           ))}
         </nav>
