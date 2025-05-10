@@ -11,7 +11,8 @@ import {
   RotateCw, 
   PieChart, 
   Settings, 
-  LogOut 
+  LogOut,
+  Database
 } from "lucide-react";
 
 interface SidebarProps {
@@ -38,6 +39,7 @@ export default function Sidebar({ user, mobile = false }: SidebarProps) {
     { name: "Recurring", path: "/recurring", icon: <RotateCw className="mr-3 h-5 w-5" /> },
     { name: "Revenue Sharing", path: "/revenue", icon: <PieChart className="mr-3 h-5 w-5" /> },
     { name: "Settings", path: "/settings", icon: <Settings className="mr-3 h-5 w-5" /> },
+    { name: "Supabase Test", path: "/supabase-test", icon: <Database className="mr-3 h-5 w-5" /> },
   ];
   
   return (

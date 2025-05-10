@@ -44,6 +44,9 @@ import ViewRevenueSplit from "@/pages/revenue/view";
 // Settings Page
 import Settings from "@/pages/settings";
 
+// Test Pages
+import SupabaseTestPage from "@/pages/supabase-test";
+
 function Router() {
   return (
     <Switch>
@@ -147,6 +150,13 @@ function Router() {
       <Route path="/settings">
         <MainLayout>
           <Settings />
+        </MainLayout>
+      </Route>
+      
+      {/* Supabase Test */}
+      <Route path="/supabase-test">
+        <MainLayout>
+          <SupabaseTestPage />
         </MainLayout>
       </Route>
 

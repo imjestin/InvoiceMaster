@@ -1,14 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// For client-side usage
-export const createBrowserClient = () => {
-  // Access environment variables using Vite's import.meta.env
-  // If using TypeScript, make sure vite-env.d.ts is properly set up
-  const supabaseUrl = import.meta.env.VITE_NEXT_PUBLIC_SUPABASE_URL as string;
-  const supabaseAnonKey = import.meta.env.VITE_NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-  
-  return createClient(supabaseUrl, supabaseAnonKey);
-};
+// Create a Supabase client for client-side operations
+const supabaseUrl = "https://znpzfkwjxnylysxvrptv.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpucHpma3dqeG55bHlzeHZycHR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4OTE5MTMsImV4cCI6MjA2MjQ2NzkxM30.B_Nvu2EtLoPiPZWwA5noa7UVpJVXVZ2AJjHC-fbpzEs";
 
-// Export a singleton instance for convenience
-export const supabase = createBrowserClient();
+// Simple direct client creation
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
