@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { createClient } from '@supabase/supabase-js';
+import { createServerClient } from '../utils/supabase';
 
 export const supabaseTestHandler = async (req: Request, res: Response) => {
   try {
-    // Create Supabase client directly in this handler
-    const supabaseUrl = "https://znpzfkwjxnylysxvrptv.supabase.co";
-    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpucHpma3dqeG55bHlzeHZycHR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4OTE5MTMsImV4cCI6MjA2MjQ2NzkxM30.B_Nvu2EtLoPiPZWwA5noa7UVpJVXVZ2AJjHC-fbpzEs";
+    // Get cookies (or any auth header) from request
+    const cookieHeader = req.headers.cookie;
     
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    // Create a Supabase client using the App Router pattern
+    const supabase = createServerClient(cookieHeader);
     
     // Test query
     const { data, error } = await supabase.from('users').select('*').limit(5);

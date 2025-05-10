@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from "@/utils/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
@@ -14,13 +14,7 @@ export function SupabaseTest() {
   const testConnection = async () => {
     setIsLoading(true);
     try {
-      // Create a new client inside the function
-      const supabaseUrl = "https://znpzfkwjxnylysxvrptv.supabase.co";
-      const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpucHpma3dqeG55bHlzeHZycHR2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4OTE5MTMsImV4cCI6MjA2MjQ2NzkxM30.B_Nvu2EtLoPiPZWwA5noa7UVpJVXVZ2AJjHC-fbpzEs";
-      
-      const supabase = createClient(supabaseUrl, supabaseAnonKey);
-      
-      // Simple query to verify connection
+      // Test query to verify connection
       const { data, error } = await supabase.from('users').select('*').limit(1);
       
       if (error) {
@@ -49,7 +43,7 @@ export function SupabaseTest() {
       const result = await response.json();
       
       if (response.ok) {
-        setData(result);
+        setData(result.data);
         setIsConnected(true);
         setConnectionMessage("Successfully connected to Supabase via server (App Router pattern)!");
       } else {
@@ -69,7 +63,7 @@ export function SupabaseTest() {
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle>Supabase Connection Test</CardTitle>
-        <CardDescription>Test the connection to your Supabase instance using the App Router pattern</CardDescription>
+        <CardDescription>Test the connection to your Supabase instance</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-col space-y-2">
