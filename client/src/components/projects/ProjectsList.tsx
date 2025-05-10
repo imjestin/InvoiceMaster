@@ -54,14 +54,14 @@ export default function ProjectsList() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all_statuses");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<number | null>(null);
   
   // Get client ID from URL if it exists for filtering
   const params = new URLSearchParams(window.location.search);
   const clientIdFromUrl = params.get("clientId");
-  const [clientFilter, setClientFilter] = useState<string>(clientIdFromUrl || "");
+  const [clientFilter, setClientFilter] = useState<string>(clientIdFromUrl || "all_clients");
 
   // Fetch projects
   const { data: projects, isLoading: isLoadingProjects } = useQuery<Project[]>({
@@ -70,11 +70,11 @@ export default function ProjectsList() {
       let url = "/api/projects";
       const params = new URLSearchParams();
       
-      if (statusFilter) {
+      if (statusFilter && statusFilter !== 'all_statuses') {
         params.append("status", statusFilter);
       }
       
-      if (clientFilter) {
+      if (clientFilter && clientFilter !== 'all_clients') {
         params.append("clientId", clientFilter);
       }
       
@@ -173,7 +173,7 @@ export default function ProjectsList() {
                   <SelectValue placeholder="Filter by status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Statuses</SelectItem>
+                  <SelectItem value="all_statuses">All Statuses</SelectItem>
                   <SelectItem value="active">Active</SelectItem>
                   <SelectItem value="completed">Completed</SelectItem>
                 </SelectContent>
@@ -188,7 +188,7 @@ export default function ProjectsList() {
                   <SelectValue placeholder="Filter by client" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Clients</SelectItem>
+                  <SelectItem value="all_clients">All Clients</SelectItem>
                   {clients?.map((client) => (
                     <SelectItem key={client.id} value={client.id.toString()}>
                       {client.name}
