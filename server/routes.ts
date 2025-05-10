@@ -14,8 +14,32 @@ import {
   insertProjectSplitSummarySchema
 } from "@shared/schema";
 
+import { createServerClient } from "./utils/supabase";
+
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
+  
+  // Add a route demonstrating the App Router pattern with Supabase
+  app.get("/api/supabase-todos", async (req, res) => {
+    try {
+      // Get cookies (or any auth header) from request
+      const cookieHeader = req.headers.cookie;
+      
+      // Create a Supabase client using the App Router pattern
+      const supabase = createServerClient(cookieHeader);
+      
+      // Query data from Supabase
+      const { data: todos, error } = await supabase.from('todos').select('*');
+      
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+      
+      return res.json(todos || []);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  });
 
   // User routes
   app.post("/api/auth/register", async (req, res) => {
